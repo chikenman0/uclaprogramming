@@ -30,5 +30,4 @@ while (gamerunning):
 
     pygame.display.update()
     
-#    pygame.display.Clock
-    
+pygame.display.Clock
