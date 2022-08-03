@@ -20,8 +20,13 @@ while (gamerunning):
     mousepos = pygame.mouse.get_pos()
     adjacent = abs(mousepos[0] - assaultrifleposx)
     opposite = abs(mousepos[1] - assaultrifleposy)
+    gunangle = 0
+    if (adjacent == 0):
+        adjacent = 0.0000001
+    else:
+        gunangle = math.atan(opposite/adjacent) * 180/math.pi
     
-    triglabels = myfont.render(str(mousepos[0]) + ", " + str(assaultrifleposx) + ", " + str(math.atan(opposite/adjacent) * 180/math.pi), 1, (0, 255, 255))
+    triglabels = myfont.render(str(mousepos[0]) + ", " + str(assaultrifleposx) + ", " + str(gunangle), 1, (0, 255, 255))
 
     screen.fill(backgroundcolor)
     screen.blit(triglabels, (100, 200))
