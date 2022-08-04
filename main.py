@@ -10,27 +10,32 @@ screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Shooter')
 
 myfont = pygame.font.SysFont("monospace", 15)
-assaultrifle = pygame.transform.scale(pygame.image.load("sourcefiles/M4A1.png"), (50, 30))
-assaultrifleposx = 500
-assaultrifleposy = 400
-assaultriflepos = tuple([assaultrifleposx, assaultrifleposy])
+ar = pygame.image.load("sourcefiles/M4A1.png")
+arposx = 500
+arposy = 400
+arpos = tuple([arposx, arposy])
 
 gamerunning = True
 while (gamerunning):
     mousepos = pygame.mouse.get_pos()
-    adjacent = abs(mousepos[0] - assaultrifleposx)
-    opposite = abs(mousepos[1] - assaultrifleposy)
+    adjacent = mousepos[0] - arposx
+    opposite = mousepos[1] - arposy
     gunangle = 0
+
     if (adjacent == 0):
-        adjacent = 0.0000001
+        gunangle = -math.atan(opposite/0.000001) * 180/math.pi
     else:
-        gunangle = math.atan(opposite/adjacent) * 180/math.pi
+        gunangle = -math.atan(opposite/adjacent) * 180/math.pi
     
-    triglabels = myfont.render(str(mousepos[0]) + ", " + str(assaultrifleposx) + ", " + str(gunangle), 1, (0, 255, 255))
+    triglabels = myfont.render(str(adjacent) + ", " + str(arposx) + ", " + str(gunangle), 1, (0, 255, 255))
 
     screen.fill(backgroundcolor)
     screen.blit(triglabels, (100, 200))
-    screen.blit(assaultrifle, assaultriflepos)
+
+    if (adjacent <= 0):
+        screen.blit(pygame.transform.flip(pygame.transform.rotate(pygame.transform.scale(ar, (50, 30)), -gunangle), 1, 0), arpos)
+    else:
+        screen.blit(pygame.transform.rotate(pygame.transform.scale(ar, (50, 30)), gunangle), arpos)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
